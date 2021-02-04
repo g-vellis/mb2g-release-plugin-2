@@ -33,6 +33,14 @@
     </dependencies>
 
     <build>
+        <extensions>
+            <!-- This is what it's going to enable Maven Wagon to push artifacts up to packagecloud -->
+            <extension>
+                <groupId>io.packagecloud.maven.wagon</groupId>
+                <artifactId>maven-packagecloud-wagon</artifactId>
+                <version>0.0.6</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -41,4 +49,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <!-- <distributionManagement> is going to tell Maven where to deploy things. -->
+    <distributionManagement>
+        <repository>
+            <id>packagecloud.georgevl_repo.releases</id>
+            <!-- the use of the "packagecloud+https" protocol will trigger the "maven-packagecloud-wagon" wagon extension to execute. -->
+            <url>packagecloud+https://packagecloud.io/georgevl/release</url>
+        </repository>
+        <snapshotRepository>
+            <id>packagecloud.georgevl_repo.snapshots</id>
+            <!-- packagecloud+https will trigger the "maven-packagecloud-wagon" wagon extension. -->
+            <url>packagecloud+https://packagecloud.io/georgevl/snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>
