@@ -4,9 +4,14 @@
 
     <groupId>guru.springframework</groupId>
     <artifactId>mb2g-release-plugin-2</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <modules>
+        <module>sub-module-1</module>
+    </modules>
 
     <properties>
+        <revision>1.1-SNAPSHOT</revision><!-- called Maven CI Friendly Versions -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
@@ -32,7 +37,17 @@
         </dependency>
     </dependencies>
 
-    <!-- mvn clean release:prepare -->
+    <!-- https://maven.apache.org/maven-release/maven-release-plugin/examples/update-versions.html -->
+    <!-- https://maven.apache.org/maven-release/maven-release-plugin/examples/non-interactive-release.html# -->
+    <!-- mvn clean release:prepare    this prepares the release and does the tagging inside of github and then,
+         mvn release:perform        does a build and then it pushes up to packagecloud.
+    -->
+    <!--
+        mvn release:prepare -DdryRun=true   to see what is going to change - no modification to the github, etc.
+        mvn release:clean
+    -->
+    <!-- -->
+    <!-- mvn -Drevision=$BUILD_NUMBER deploy scm:tag -->
     <scm>
         <!-- scm:git: ++ the github https url we use to clone the repo. -->
         <developerConnection>scm:git:https://github.com/g-vellis/mb2g-release-plugin-2.git</developerConnection>
@@ -55,6 +70,33 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+            </plugin>
+            <!-- replaces the ${revision} placeholder with the actual version value in the installed pom.xml -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.2.5</version>
+                <configuration>
+                    <flattenMode>bom</flattenMode>
+                </configuration>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- required to use the maven-release-plugin, we are still to define the "scm" element -->
