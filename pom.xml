@@ -15,6 +15,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <junit.version>5.7.0</junit.version>
+        <!-- Used along with the "<scm>" element and the "maven-release-plugin" -->
+        <project.scm.id>github</project.scm.id> <!-- The value provided here (i.e. server id) needs to match the id of a server inside settings.xml; the credentials of the matching server will be used to sign in to github. -->
     </properties>
 
     <dependencies>
@@ -32,6 +34,14 @@
         </dependency>
     </dependencies>
 
+    <!-- mvn clean release:prepare -->
+    <scm>
+        <!-- scm:git: ++ the github https url we use to clone the repo. -->
+        <developerConnection>scm:git:https://github.com/g-vellis/mb2g-release-plugin-2.git</developerConnection>
+        <!-- the repo github url shown in the browser address bar when we visit the homa page of the repo. -->
+        <url>https://github.com/g-vellis/mb2g-release-plugin-2</url>
+    </scm>
+
     <build>
         <extensions>
             <!-- This is what it's going to enable Maven Wagon to push artifacts up to packagecloud -->
@@ -46,6 +56,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+            </plugin>
+
+            <!-- required to use the maven-release-plugin, we are still to define the "scm" element -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
             </plugin>
         </plugins>
     </build>
