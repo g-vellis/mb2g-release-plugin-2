@@ -37,8 +37,10 @@
         </dependency>
     </dependencies>
 
-    <!-- https://maven.apache.org/maven-release/maven-release-plugin/examples/update-versions.html -->
-    <!-- https://maven.apache.org/maven-release/maven-release-plugin/examples/non-interactive-release.html# -->
+    <!--
+        Useful links to make the revision plugin work within the context of a multi-module project (i.e. properly assign new versions).
+            https://maven.apache.org/maven-release/maven-release-plugin/examples/update-versions.html
+            https://maven.apache.org/maven-release/maven-release-plugin/examples/non-interactive-release.html# -->
     <!-- mvn clean release:prepare    this prepares the release and does the tagging inside of github and then,
          mvn release:perform        does a build and then it pushes up to packagecloud.
     -->
@@ -47,7 +49,7 @@
         mvn release:clean
     -->
     <!-- -->
-    <!-- mvn -Drevision=$BUILD_NUMBER deploy scm:tag -->
+    <!-- mvn -Drevision=$BUILD_NUMBER deploy scm:tag another way to work versions without using the revision plugin. -->
     <scm>
         <!-- scm:git: ++ the github https url we use to clone the repo. -->
         <developerConnection>scm:git:https://github.com/g-vellis/mb2g-release-plugin-2.git</developerConnection>
