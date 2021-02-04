@@ -37,7 +37,7 @@
         </dependency>
     </dependencies>
 
-    <!--
+    <!-- 
         Useful links to make the revision plugin work within the context of a multi-module project (i.e. properly assign new versions).
             https://maven.apache.org/maven-release/maven-release-plugin/examples/update-versions.html
             https://maven.apache.org/maven-release/maven-release-plugin/examples/non-interactive-release.html# -->
